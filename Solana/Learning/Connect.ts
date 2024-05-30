@@ -9,23 +9,21 @@ import { getKeypairFromEnvironment,} from "@solana-developers/helpers";
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-
 // Open a connection to the solana cluster.
 const connection = new Connection(clusterApiUrl(`devnet`));
 console.log("Solana (DEV) Connected!");
 
 // Declare wallet addresses.
-const fromAddress = new PublicKey(``);
-const recipientAddress = new PublicKey('');
+const fromAddress = new PublicKey(`${process.env.FROM_WALLET}`);
+const recipientAddress = new PublicKey(`${process.env.TO_WALLET}`);
 
 outputBalances(fromAddress, recipientAddress);
 
 const solanaAmount = 1;
 const transaction = createSendingTransaction(fromAddress, recipientAddress, solanaAmount);
 
-
 // Loads the secret key from the .env file, which is then to retrieve the KeyPair. The keyPair is also used to create the signature below.
-const keypair = getKeypairFromEnvironment(`SECRET_KEY`);
+const keypair = getKeypairFromEnvironment('SECRET_KEY');
 
 const signature = sendAndConfirmTransaction(
     connection,
